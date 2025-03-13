@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { CartService } from './cart.service';
 import { firstValueFrom } from 'rxjs';
 import { Product } from '../models/product.model';
+import { CartService } from './cart.service';
 
 
 const mockProduct = (id: number, price?: number): Product => ({

@@ -1,0 +1,38 @@
+{
+  "discounts": [
+    {
+      "id": 1,
+      "code": "SAVE10",
+      "type": "percent",
+      "value": 10
+    },
+    {
+      "id": 2,
+      "code": "SAVE5",
+      "type": "fixed",
+      "value": 5
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Laptop",
+      "price": 1200
+    },
+    {
+      "id": 2,
+      "name": "Phone",
+      "price": 800
+    },
+    {
+      "id": 3,
+      "name": "Tablet",
+      "price": 500
+    },
+    {
+      "id": 4,
+      "name": "Headphones",
+      "price": 200
+    }
+  ]
+}
