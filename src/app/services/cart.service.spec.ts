@@ -1,12 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { CartService } from './cart.service';
 import { firstValueFrom } from 'rxjs';
+import { Product } from '../models/product.model';
+
+
+const mockProduct = (id: number, price?: number): Product => ({
+  id,
+  name: `Product ${id}`,
+  price: price ?? 100 * id
+});
+
 
 describe('CartService', () => {
   let service: CartService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [CartService] });
     service = TestBed.inject(CartService);
     service.clearCart();
   });
@@ -16,7 +25,7 @@ describe('CartService', () => {
   });
 
   describe('Cart Operations', () => {
-    const product = { id: 1, name: 'Product 1', price: 100 };
+    const product = mockProduct(1);
 
     it('should add a product to the cart', async () => {
       service.addToCart(product);
@@ -41,21 +50,21 @@ describe('CartService', () => {
 
   describe('Cart Calculations', () => {
     it('should return correct subtotal', () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
-      service.addToCart({ id: 2, name: 'Product 2', price: 200 });
+      service.addToCart(mockProduct(1));
+      service.addToCart(mockProduct(2));
       expect(service.getSubtotal()).toBe(300);
     });
   });
 
   describe('Discounts', () => {
     it('should apply a valid discount', () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       service.applyDiscount('SAVE10');
       expect(service.getTotal()).toBe(90);
     });
 
     it('should not apply an invalid discount', async () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       service.applyDiscount('INVALID_CODE');
       const error = await firstValueFrom(service.discountError$);
       expect(error).toBe('Invalid Discount Code');
@@ -65,22 +74,22 @@ describe('CartService', () => {
 
   describe('Persistence', () => {
     it('should save cart to localStorage', () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      expect(storedCart).toEqual([{ product: { id: 1, name: 'Product 1', price: 100 }, quantity: 1 }]);
+      expect(storedCart).toEqual([{ product: mockProduct(1), quantity: 1 }]);
     });
 
     it('should load cart from localStorage', async () => {
-      localStorage.setItem('cart', JSON.stringify([{ product: { id: 1, name: 'Product 1', price: 100 }, quantity: 1 }]));
+      localStorage.setItem('cart', JSON.stringify([{ product: mockProduct(1), quantity: 1 }]));
       service = new CartService();
       const cart = await firstValueFrom(service.cart$);
-      expect(cart).toEqual([{ product: { id: 1, name: 'Product 1', price: 100 }, quantity: 1 }]);
+      expect(cart).toEqual([{ product: mockProduct(1), quantity: 1 }]);
     });
   });
 
   describe('Cart Management', () => {
     it('should clear the cart', async () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       service.clearCart();
       const cart = await firstValueFrom(service.cart$);
       expect(cart).toEqual([]);
@@ -88,24 +97,24 @@ describe('CartService', () => {
     });
 
     it('should update product quantity', async () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       service.updateQuantity(1, 3);
       const cart = await firstValueFrom(service.cart$);
-      expect(cart).toEqual([{ product: { id: 1, name: 'Product 1', price: 100 }, quantity: 3 }]);
+      expect(cart).toEqual([{ product: mockProduct(1), quantity: 3 }]);
     });
 
     it('should remove product when quantity is set to zero', async () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       service.updateQuantity(1, 0);
       const cart = await firstValueFrom(service.cart$);
       expect(cart).toEqual([]);
     });
 
     it('should prevent setting negative quantity', async () => {
-      service.addToCart({ id: 1, name: 'Product 1', price: 100 });
+      service.addToCart(mockProduct(1));
       service.updateQuantity(1, -5);
       const cart = await firstValueFrom(service.cart$);
-      expect(cart).toEqual([{ product: { id: 1, name: 'Product 1', price: 100 }, quantity: 1 }]);
+      expect(cart).toEqual([{ product: mockProduct(1), quantity: 1 }]);
     });
   });
 });
