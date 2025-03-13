@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { CartItem } from "../models/cart-item.model";
 import { Discount } from "../models/discount.model";
+import { DiscountService } from "./discount.service";
 
 @Injectable({
   providedIn: "root",
@@ -17,13 +18,8 @@ export class CartService {
   readonly discountCode$ = this.discountCodeSubject.asObservable();
   readonly discountError$ = this.discountErrorSubject.asObservable();
 
-  private readonly DISCOUNTS: Discount[] = [
-    { code: "SAVE10", type: "percent", value: 10 },
-    { code: "SAVE5", type: "fixed", value: 5 },
-  ];
 
-
-  constructor() {
+  constructor(private discountService: DiscountService) {
     this.loadCart();
   }
 
@@ -38,13 +34,14 @@ export class CartService {
   }
 
   applyDiscount(code: string): void {
-    this.clearDiscountError();
-    const discount = this.DISCOUNTS.find((d) => d.code === code);
-    if (discount) {
-      this.discount = discount;
-      this.discountCodeSubject.next(code);
-    }
-    this.discountErrorSubject.next("Invalid Discount Code");
+    this.discountService.validateDiscount(code).subscribe((discount) => {
+      this.clearDiscountError();
+      if (discount) {
+        this.discount = discount;
+        this.discountCodeSubject.next(code);
+      }
+      this.discountErrorSubject.next("Invalid Discount Code");
+    });
   }
 
   clearCart(): void {
