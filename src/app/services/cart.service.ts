@@ -8,14 +8,14 @@ import { Discount } from "../models/discount.model";
 })
 export class CartService {
   private cartItems: CartItem[] = [];
-  private cartSubject = new BehaviorSubject<CartItem[]>([]);
-  cart$ = this.cartSubject.asObservable();
+  private readonly cartSubject = new BehaviorSubject<CartItem[]>([]);
+  readonly cart$ = this.cartSubject.asObservable();
 
   private discount: Discount | null = null;
-  private discountCodeSubject = new BehaviorSubject<string>('');
-  private discountErrorSubject = new BehaviorSubject<string>('');
-  discountCode$ = this.discountCodeSubject.asObservable();
-  discountError$ = this.discountErrorSubject.asObservable();
+  private readonly discountCodeSubject = new BehaviorSubject<string>('');
+  private readonly discountErrorSubject = new BehaviorSubject<string>('');
+  readonly discountCode$ = this.discountCodeSubject.asObservable();
+  readonly discountError$ = this.discountErrorSubject.asObservable();
 
   private readonly DISCOUNTS: Discount[] = [
     { code: "SAVE10", type: "percent", value: 10 },
