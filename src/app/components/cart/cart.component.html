@@ -1,0 +1,19 @@
+<div class="container">
+  <h3>Shopping Cart</h3>
+  <table class="table">
+    @for (item of cartItems; track $index) {
+    <tr>
+      <td>{{ item.product.name }}</td>
+      <td>${{ item.product.price }}</td>
+      <td>
+        <button (click)="removeFromCart(item.product.id)" class="btn btn-danger">Remove</button>
+      </td>
+    </tr>
+    }
+  </table>
+
+  <input [(ngModel)]="discountCode" placeholder="Enter discount code" />
+  <button (click)="applyDiscount()" class="btn btn-info">Apply</button>
+
+  <h4>Total: ${{ getTotal() }}</h4>
+</div>
