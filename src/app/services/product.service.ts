@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Product } from '../models/product.model';
@@ -10,7 +10,7 @@ import { Product } from '../models/product.model';
 export class ProductService {
   private readonly API_URL = `${environment.apiUrl}/products`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.API_URL);

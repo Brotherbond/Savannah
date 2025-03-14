@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { Discount } from '../models/discount.model';
+import { Injectable } from '@angular/core';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Discount } from '../models/discount.model';
 
 
 @Injectable({
@@ -36,7 +36,10 @@ export class DiscountService {
 
   validateDiscount(code: string): Observable<Discount | null> {
     return this.http.get<Discount[]>(`${this.API_URL}?code=${code}`).pipe(
-      map((discounts: Discount[]) => (discounts.length > 0 ? discounts[0] : null))
+      map((discounts: Discount[]) => {
+        return discounts.find(d => d.code === code) ?? null;
+      }),
+      catchError(() => of(null))
     );
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { CartItem } from "../models/cart-item.model";
 import { Discount } from "../models/discount.model";
+import { NotificationService } from "../shared/services/notification.service";
 import { DiscountService } from "./discount.service";
 
 @Injectable({
@@ -19,7 +20,7 @@ export class CartService {
   readonly discountError$ = this.discountErrorSubject.asObservable();
 
 
-  constructor(private discountService: DiscountService) {
+  constructor(private discountService: DiscountService, private notificationService: NotificationService) {
     this.loadCart();
   }
 
@@ -31,16 +32,21 @@ export class CartService {
       this.cartItems.push({ product, quantity: 1 });
     }
     this.updateCart();
+    this.notificationService.success('Item added to cart!');
   }
 
   applyDiscount(code: string): void {
+    this.clearDiscountError();
     this.discountService.validateDiscount(code).subscribe((discount) => {
-      this.clearDiscountError();
       if (discount) {
         this.discount = discount;
         this.discountCodeSubject.next(code);
+        this.notificationService.success('Discount applied!', discount.code);
+        return;
       }
-      this.discountErrorSubject.next("Invalid Discount Code");
+      const error = "Invalid Discount Code";
+      this.discountErrorSubject.next(error);
+      this.notificationService.error(error, 'Discount');
     });
   }
 
@@ -74,12 +80,11 @@ export class CartService {
   private loadCart(): void {
     try {
       const storedCart = localStorage.getItem('cart');
-      if (storedCart) {
-        this.cartItems = JSON.parse(storedCart);
-        this.cartSubject.next([...this.cartItems]);
-      }
+      this.cartItems = storedCart ? JSON.parse(storedCart) : [];
+      this.cartSubject.next([...this.cartItems]);
     } catch (error) {
       console.error('Error loading cart from storage:', error);
+      this.notificationService.error('Error loading cart from storage');
       this.cartItems = [];
       this.saveCart();
     }
@@ -90,6 +95,7 @@ export class CartService {
     this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
     if (initialLength !== this.cartItems.length) {
       this.updateCart();
+      this.notificationService.success('Item removed from cart!');
     }
   }
 
@@ -98,6 +104,7 @@ export class CartService {
       localStorage.setItem('cart', JSON.stringify(this.cartItems));
     } catch (error) {
       console.error('Error saving cart to storage:', error);
+      this.notificationService.error('Error saving cart to storage');
     }
   }
 
