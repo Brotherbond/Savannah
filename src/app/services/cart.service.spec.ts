@@ -4,13 +4,13 @@ import { TestBed } from '@angular/core/testing';
 import { provideToastr } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CartItem } from '../models/cart-item.model';
 import { Discount } from '../models/discount.model';
 import { Product } from '../models/product.model';
 import { NotificationService } from '../shared/services/notification.service';
 import { CartService } from './cart.service';
 import { DiscountService } from './discount.service';
 import { ProductService } from './product.service';
-import { CartItem } from '../models/cart-item.model';
 
 describe('CartService', () => {
   let httpMock: HttpTestingController;

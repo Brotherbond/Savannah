@@ -17,22 +17,31 @@
     {
       "id": 1,
       "name": "Laptop",
-      "price": 1200
+      "price": 1200,
+      "imageUrl": "https://media.istockphoto.com/id/2120395013/photo/laptop-image.jpg?s=1024x1024&w=is&k=20&c=JoWOUcptd2bTZKnFMLNWfYnZfc2Sq6lS7feiImKfKTc=",
+      "description": "Laptop description"
+
     },
     {
       "id": 2,
       "name": "Phone",
-      "price": 800
+      "price": 800,
+      "imageUrl": "https://example.com/phone.jpg",
+      "description": "Phone description"
     },
     {
       "id": 3,
       "name": "Tablet",
-      "price": 500
+      "price": 500,
+      "imageUrl": "https://example.com/tablet.jpg",
+      "description": "Tablet description"
     },
     {
       "id": 4,
       "name": "Headphones",
-      "price": 200
+      "price": 200,
+      "imageUrl": "https://example.com/headphones.jpg",
+      "description": "Headphones description"
     }
   ]
 }

@@ -1,0 +1,25 @@
+input.quantity {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+  width: 50px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+}
+
+input.quantity:focus {
+  border-bottom: 1px solid #007bff;
+}
+
+input.quantity::-webkit-inner-spin-button,
+input.quantity::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.quantity[type="number"] {
+  appearance: textfield;
+}

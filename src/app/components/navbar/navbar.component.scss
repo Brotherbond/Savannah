@@ -1,0 +1,16 @@
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.badge {
+  font-size: 0.75rem;
+  min-width: 18px;
+  padding: 4px 6px;
+}

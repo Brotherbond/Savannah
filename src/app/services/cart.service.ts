@@ -95,7 +95,7 @@ export class CartService {
     this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
     if (initialLength !== this.cartItems.length) {
       this.updateCart();
-      this.notificationService.success('Item removed from cart!');
+      this.notificationService.warning('Item removed from cart!', 'Cart');
     }
   }
 
