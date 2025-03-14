@@ -2,6 +2,9 @@
 
 This project is a Simple Retail Cart with Discounts 
 
+## Demo
+https://savannah-one.vercel.app/cart
+
 ## References Document
 https://docs.google.com/document/d/1E-flnUNo1G6XSPs23czHIvOKf4gJy3rO3oRsYJJJKpc/edit?tab=t.0#heading=h.196oxh3t5u7c
 
@@ -10,7 +13,6 @@ Run  `pnpm install`
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-## Development server
 
 ## Backend Server 
 Run `pnpm run server`
