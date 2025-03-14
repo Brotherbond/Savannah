@@ -26,21 +26,21 @@
       "id": 2,
       "name": "Phone",
       "price": 800,
-      "imageUrl": "https://example.com/phone.jpg",
+      "imageUrl": "https://media.istockphoto.com/id/1494464996/photo/hand-holding-smartphone-isolated-on-white-background-clipping-path.jpg?s=1024x1024&w=is&k=20&c=9H26R9Z4wg31Cqi11RQ1zZnns6LsdPgk4BmjWK-YuNs=",
       "description": "Phone description"
     },
     {
       "id": 3,
       "name": "Tablet",
       "price": 500,
-      "imageUrl": "https://example.com/tablet.jpg",
+      "imageUrl": "https://media.istockphoto.com/id/1378688632/photo/mockup-image-of-a-woman-holding-digital-tablet-with-blank-white-desktop-screen-in-cafe.jpg?s=1024x1024&w=is&k=20&c=iw7IWyq6epnmgSFp6w7qLJFYW97v4dHYmv24TQep0P0=",
       "description": "Tablet description"
     },
     {
       "id": 4,
       "name": "Headphones",
       "price": 200,
-      "imageUrl": "https://example.com/headphones.jpg",
+      "imageUrl": "https://media.istockphoto.com/id/1412240771/photo/headphones-on-white-background.jpg?s=1024x1024&w=is&k=20&c=UyOQrYwxx61kI5TwmTCye0UUvDakbeR9W_jWk1AU0Fk=",
       "description": "Headphones description"
     }
   ]
