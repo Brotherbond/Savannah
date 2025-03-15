@@ -1,16 +1,20 @@
 <header class="w-100 shadow-sm bg-white mb-4">
   <nav class="container d-flex justify-content-between align-items-center py-3">
-    <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page" class="fw-bold fs-4 text-primary text-decoration-none mt-1">
+    <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page"
+      class="fw-bold fs-4 text-primary text-decoration-none mt-1">
       🛒 Retail Cart
     </a>
 
     <ul class="d-flex gap-3 list-unstyled m-0 align-items-center">
-      <li><a routerLink="/products" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link mt-1">Products</a></li>
+      <li><a routerLink="/products" routerLinkActive="active" ariaCurrentWhenActive="page"
+          class="nav-link mt-1">Products</a></li>
       <li>
-        <a routerLink="/cart" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link position-relative d-flex">
+        <a routerLink="/cart" routerLinkActive="active" ariaCurrentWhenActive="page"
+          class="nav-link position-relative d-flex">
           <span class="mt-1">Cart</span>
           <i class="fas fa-shopping-cart fs-5"></i>
-          <span *ngIf="cartItems.length" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          <span *ngIf="cartItems.length"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{ cartItems.length }}
           </span>
         </a>
