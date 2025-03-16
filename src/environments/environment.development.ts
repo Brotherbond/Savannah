@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://savannah-backend.vercel.app'
+  apiUrl: 'http://localhost:3000'
 };
