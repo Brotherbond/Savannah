@@ -1,0 +1,75 @@
+<div class="container">
+  <h3 class="text-center">🛍️ Checkout</h3>
+  <div class="text-center mb-4">Confirm your order details</div>
+
+  <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()" *ngIf="!orderPlaced; else successMessage">
+    <div class="row d-flex justify-content-center justify-content-md-between">
+      <div class="mb-3 col-md-6">
+        <label class="form-label">Full Name</label>
+        <input placeholder="Enter your full name" type="text" class="form-control" formControlName="fullName">
+        <div *ngIf="isSubmitted && form['fullName'].errors" class="text-danger">
+          Name is required (Min. 3 characters)
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label class="form-label">Email</label>
+        <input placeholder="Enter your email" type="email" class="form-control" formControlName="email">
+        <div *ngIf="isSubmitted && form['email'].errors" class="text-danger">
+          Enter a valid email address
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label class="form-label">Phone</label>
+        <input placeholder="Enter your phone number" type="tel" class="form-control" formControlName="phone">
+        <div *ngIf="isSubmitted && form['phone'].errors" class="text-danger">
+          Enter a valid phone number (10-15 digits)
+        </div>
+      </div>
+      <div class="mb-3 col-md-6">
+        <label class="form-label">Address</label>
+        <textarea placeholder="Enter your address" class="form-control" formControlName="address"></textarea>
+        <div *ngIf="isSubmitted && form['address'].errors" class="text-danger">
+          Address is required (Min. 10 characters)
+        </div>
+      </div>
+      <div class="mb-3 col-md-6">
+        <label class="form-label">City</label>
+        <input placeholder="Enter your city" type="text" class="form-control" formControlName="city">
+        <div *ngIf="isSubmitted && form['city'].errors" class="text-danger">
+          City is required
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label class="form-label">ZIP Code</label>
+        <input placeholder="Enter your ZIP Code" type="text" class="form-control" formControlName="zipCode">
+        <div *ngIf="isSubmitted && form['zipCode'].errors" class="text-danger">
+          Enter a valid ZIP Code (5-6 digits)
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 col-md-12">
+      <label class="form-label">Payment Method</label>
+      <select title="Select payment method" class="form-select" formControlName="paymentMethod">
+        <option value="credit_card">Credit Card</option>
+        <option value="paypal">PayPal</option>
+        <option value="bank_transfer">Bank Transfer</option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="orderPlaced">Place Order</button>
+    </div>
+  </form>
+
+  <ng-template #successMessage>
+    <div class="alert alert-success text-center">
+      <h4>🎉 Order Placed Successfully!</h4>
+      <p>Thank you for your purchase. Your order will be processed shortly.</p>
+      <a routerLink="/" class="btn btn-primary mt-3">Return to Home</a>
+    </div>
+  </ng-template>
+</div>
