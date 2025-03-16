@@ -1,55 +1,73 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { CartItem } from '../../models/cart-item.model';
 import { CartService } from '../../services/cart.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.scss'
+  styleUrls: ['./cart.component.scss']
 })
 export class CartComponent {
-  cartItems: CartItem[] = [];
+  cartItems$!: Observable<CartItem[]>;
+  total$: number = 0;
   discountCode = "";
-
-  constructor(private cartService: CartService) {
-    this.cartService.cart$.subscribe((items) => (this.cartItems = items));
+  discountApplied = false;
+  constructor(private cartService: CartService, private notificationService: NotificationService, private router: Router) {
+    (this.cartItems$ = this.cartService.cart$).subscribe(cartItems => this.total$ = this.cartService.getTotal());
+    this.cartService.discountCode$.subscribe(code => {
+      this.discountApplied = !!code;
+      this.total$ = this.cartService.getTotal();
+    });
   }
 
   applyDiscount(): void {
-    this.cartService.applyDiscount(this.discountCode);
-  }
-
-  checkout() {
-    alert("Proceeding to checkout...");
-  }
-
-  getTotal(): number {
-    return this.cartService.getTotal();
-  }
-
-  handleBlur(productId: number, event: any) {
-    const value = Number(event.target.value);
-    if (value === 0) {
-      this.removeFromCart(productId);
+    if (this.discountCode.trim()) {
+      this.cartService.applyDiscount(this.discountCode);
     }
   }
 
-  updateQuantity(productId: number, newQuantity: number) {
-    if (newQuantity >= 1) {
-      this.cartItems = this.cartItems.map(item =>
-        item.product.id === productId ? { ...item, quantity: newQuantity } : item
-      );
+  checkout(): void {
+    this.notificationService.success("Proceeding to checkout...", "Cart");
+    this.router.navigate(['/checkout']);
+  }
+
+  handleBlur(productId: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+
+    if (value < 1) {
+      input.value = '1';
+      this.updateQuantity(productId, 1);
     }
   }
 
-  onQuantityChange(event: any, productId: number) {
-    const value = Number(event.target.value);
+  onDiscountInputChange(): void {
+    this.discountApplied = false;
+  }
+
+  onQuantityChange(event: Event, productId: number): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+
     if (!isNaN(value) && value >= 1) {
       this.updateQuantity(productId, value);
     }
   }
 
-  removeFromCart(productId: number) {
+  removeFromCart(productId: number): void {
     this.cartService.removeFromCart(productId);
+  }
+
+  trackById(index: number, item: CartItem): number {
+    return item.product.id;
+  }
+
+  updateQuantity(productId: number, newQuantity: number): void {
+    if (newQuantity >= 1) {
+      this.cartService.updateQuantity(productId, newQuantity);
+    }
   }
 }

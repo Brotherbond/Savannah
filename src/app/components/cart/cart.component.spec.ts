@@ -10,7 +10,6 @@ describe('CartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideToastr(),]
-
     })
       .compileComponents();
 
