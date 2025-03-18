@@ -14,11 +14,12 @@ export class CartComponent {
   cartItems$!: Observable<CartItem[]>;
   total$: number = 0;
   discountCode = "";
-  discountApplied = false;
+  isDiscountApplied = false;
   constructor(private cartService: CartService, private notificationService: NotificationService, private router: Router) {
     (this.cartItems$ = this.cartService.cart$).subscribe(cartItems => this.total$ = this.cartService.getTotal());
     this.cartService.discountCode$.subscribe(code => {
-      this.discountApplied = !!code;
+      this.isDiscountApplied = !!code;
+      if (code) this.discountCode = code;
       this.total$ = this.cartService.getTotal();
     });
   }
@@ -45,7 +46,7 @@ export class CartComponent {
   }
 
   onDiscountInputChange(): void {
-    this.discountApplied = false;
+    this.cartService.clearDiscount();
   }
 
   onQuantityChange(event: Event, productId: number): void {

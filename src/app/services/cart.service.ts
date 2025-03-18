@@ -22,6 +22,8 @@ export class CartService {
 
   constructor(private discountService: DiscountService, private notificationService: NotificationService) {
     this.loadCart();
+    const discount = localStorage.getItem('appliedDiscount') || '';
+    discount && this.applyDiscount(discount);
   }
 
   addToCart(product: CartItem["product"]): void {
@@ -40,6 +42,7 @@ export class CartService {
     this.discountService.validateDiscount(code).subscribe((discount) => {
       if (discount) {
         this.discount = discount;
+        localStorage.setItem('appliedDiscount', discount.code);
         this.discountCodeSubject.next(code);
         this.notificationService.success('Discount applied!', discount.code);
         return;
@@ -56,6 +59,12 @@ export class CartService {
     this.discountCodeSubject.next('');
     this.clearDiscountError();
     this.updateCart();
+  }
+
+  clearDiscount(): void {
+    this.discount = null;
+    localStorage.removeItem('appliedDiscount');
+    this.discountCodeSubject.next('');
   }
 
   clearDiscountError(): void {
